@@ -5,6 +5,8 @@ import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App />
+   <BrowserRouter basename="/goit-react-hw-07-phonebook">
+  <App />
+</BrowserRouter>
   </React.StrictMode>
 );
