@@ -1,16 +1,14 @@
-export const App = () => {
+import React from 'react';
+import ContactForm from './ContactForm/ContactForm';
+import ContactList from './ContactList/ContactList';
+
+function App() {
   return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 20,
-        color: '#rgb(132, 248, 210)',
-      }}
-    >
-      React homework template
+    <div>
+      <ContactForm />
+      <ContactList />
     </div>
   );
-};
+}
+
+export default App;

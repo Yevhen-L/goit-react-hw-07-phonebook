@@ -1,0 +1,55 @@
+.filterBox {
+  margin-top: 20px;
+  text-align: center;
+  background-color: rgb(205, 243, 255);
+  margin-left: auto;
+  margin-right: auto;
+  padding: 20px;
+  display: flex;
+  max-width: 280px;
+  flex-direction: column;
+  gap: 15px;
+  border-radius: 5px;
+  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+}
+
+.title {
+  font-size: 32px;
+  margin: 0;
+}
+
+.contactList {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  padding: 0;
+  margin: 0;
+  color: rgb(132, 248, 210);
+}
+
+.contactslistItem {
+  color: black;
+  padding-top: 5px;
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  font-weight: normal;
+}
+.contactslistItem:hover,
+.contactslistItem :focus {
+  font-weight: bold;
+  color: rgb(170, 3, 14);
+}
+
+.contactslistBtn {
+  border-radius: 3px;
+  background-color: rgb(250, 233, 234);
+  transition: background-color 0.3s;
+}
+
+.contactslistBtn:hover,
+.contactslistBtn:focus {
+  background-color: rgb(252, 202, 205);
+  font-weight: bold;
+}
