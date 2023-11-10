@@ -3,26 +3,34 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import contactsReducer from './contactsSlice';
 
+// Конфігурація для redux-persist
 const persistConfig = {
   key: 'root',
   storage,
   whitelist: ['contacts'],
 };
 
+// Middleware для логування
 const loggerMiddleware = store => next => action => {
-  console.log('Попередній стан:', store.getState());
-  console.log('Виконується дія:', action);
-  next(action);
-  console.log('Новий стан:', store.getState());
+  const result = next(action);
+
+  return result;
 };
+
+// Застосування persistReducer до редуктора
 const persistedContactsReducer = persistReducer(persistConfig, contactsReducer);
 
 const store = configureStore({
   reducer: {
     contacts: persistedContactsReducer,
   },
-  middleware: getDefaultMiddleware().concat(loggerMiddleware),
+  middleware: getDefaultMiddleware({
+    serializableCheck: {
+      ignoreActions: ['persist/PERSIST'],
+    },
+  }).concat(loggerMiddleware),
 });
 
 export const persistor = persistStore(store);
+
 export default store;

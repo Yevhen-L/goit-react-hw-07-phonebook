@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteContact } from 'Redux/contactsSlice'; // Зміни імпорт на новий
+import { deleteContact, fetchContacts } from 'Redux/contactsSlice';
 import { selectContacts, selectFilters } from 'Redux/selector';
 import Filter from '../Filter/Filter';
 import css from './contactList.module.css';
@@ -9,18 +9,24 @@ const ContactList = () => {
   const contacts = useSelector(selectContacts);
   const filter = useSelector(selectFilters);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
+
   const getFilteredContacts = () => {
     return contacts.filter(
       contact =>
-        contact.name &&
-        contact.name.toLowerCase().includes(filter.toLowerCase())
+        contact.name?.toLowerCase().includes(filter.toLowerCase()) ||
+        contact.number?.includes(filter)
     );
   };
+
   const filteredContacts = getFilteredContacts();
 
   const removeContactById = id => {
     const contactId = id;
-    dispatch(deleteContact(contactId)); // Використовуйте новий deleteContact
+    dispatch(deleteContact(contactId));
   };
 
   return (
@@ -30,7 +36,7 @@ const ContactList = () => {
       <ul className={css.contactList}>
         {filteredContacts.map(contact => (
           <li className={css.contactslistItem} key={contact.id}>
-            {contact.name}: {contact.number}
+            {contact.name}: {contact.phone}
             <button
               className={css.contactslistBtn}
               type="button"

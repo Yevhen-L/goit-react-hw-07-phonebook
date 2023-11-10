@@ -9,9 +9,9 @@ function ContactForm() {
   const contacts = useSelector(selectContacts);
   const [contact, setContact] = useState({
     name: '',
-    number: '',
+    phone: '',
   });
-  const { name, number } = contact;
+  const { name, phone } = contact;
   const dispatch = useDispatch();
 
   const handleChange = event => {
@@ -36,7 +36,7 @@ function ContactForm() {
     dispatch(addContact(contact));
     setContact({
       name: '',
-      number: '',
+      phone: '',
     });
   };
 
@@ -60,8 +60,8 @@ function ContactForm() {
           <input
             className={css.input}
             type="text"
-            name="number"
-            value={number}
+            name="phone"
+            value={phone}
             // pattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}"
             onChange={handleChange}
             required

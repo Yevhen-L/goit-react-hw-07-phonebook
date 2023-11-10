@@ -9,6 +9,7 @@ const initialState = {
   items: [],
   isLoading: false,
   error: null,
+  filter: ' ',
 };
 
 export const fetchContacts = createAsyncThunk('contacts/fetchAll', async () => {
@@ -22,9 +23,10 @@ export const fetchContacts = createAsyncThunk('contacts/fetchAll', async () => {
 
 export const addContact = createAsyncThunk(
   'contacts/addContact',
-  async contactData => {
+  async (contactData, { dispatch }) => {
     try {
       const data = await requestaddContact(contactData);
+      dispatch(fetchContacts()); // Оновлюємо стан після додавання контакту
       return data;
     } catch (error) {
       throw new Error('Failed to add a contact');
@@ -34,10 +36,11 @@ export const addContact = createAsyncThunk(
 
 export const deleteContact = createAsyncThunk(
   'contacts/deleteContact',
-  async contactId => {
+  async (contactId, { dispatch }) => {
     try {
-      const data = await requestdeleteContact(contactId);
-      return data;
+      await requestdeleteContact(contactId);
+      dispatch(fetchContacts()); // Оновлюємо стан після видалення контакту
+      return contactId;
     } catch (error) {
       throw new Error('Failed to delete a contact');
     }
@@ -52,6 +55,7 @@ const contactsSlice = createSlice({
       state.filter = action.payload;
     },
   },
+
   extraReducers: builder => {
     builder
       .addCase(fetchContacts.pending, state => {
