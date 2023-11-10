@@ -1,4 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import {
+  requestContacts,
+  requestaddContact,
+  requestdeleteContact,
+} from '../Services/Api';
 
 const initialState = {
   items: [],
@@ -8,13 +13,7 @@ const initialState = {
 
 export const fetchContacts = createAsyncThunk('contacts/fetchAll', async () => {
   try {
-    const response = await fetch(
-      'https://654cc59577200d6ba8596495.mockapi.io/contacts'
-    );
-    if (!response.ok) {
-      throw new Error('Failed to fetch contacts');
-    }
-    const data = await response.json();
+    const data = await requestContacts();
     return data;
   } catch (error) {
     throw new Error('Failed to fetch contacts');
@@ -25,20 +24,7 @@ export const addContact = createAsyncThunk(
   'contacts/addContact',
   async contactData => {
     try {
-      const response = await fetch(
-        'https://654cc59577200d6ba8596495.mockapi.io/contacts',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(contactData),
-        }
-      );
-      if (!response.ok) {
-        throw new Error('Failed to add a contact');
-      }
-      const data = await response.json();
+      const data = await requestaddContact(contactData);
       return data;
     } catch (error) {
       throw new Error('Failed to add a contact');
@@ -50,33 +36,13 @@ export const deleteContact = createAsyncThunk(
   'contacts/deleteContact',
   async contactId => {
     try {
-      const response = await fetch(
-        `https://654cc59577200d6ba8596495.mockapi.io/contacts/${contactId}`,
-        {
-          method: 'DELETE',
-        }
-      );
-      if (!response.ok) {
-        throw new Error('Failed to delete a contact');
-      }
-      return contactId;
+      const data = await requestdeleteContact(contactId);
+      return data;
     } catch (error) {
       throw new Error('Failed to delete a contact');
     }
   }
 );
-
-export const updateFilter = createSlice({
-  name: 'contacts',
-  initialState: {
-    filter: '',
-  },
-  reducers: {
-    setFilter: (state, action) => {
-      state.filter = action.payload;
-    },
-  },
-});
 
 const contactsSlice = createSlice({
   name: 'contacts',
