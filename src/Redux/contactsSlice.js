@@ -9,7 +9,7 @@ const initialState = {
   items: [],
   isLoading: false,
   error: null,
-  filter: ' ',
+  filter: '',
 };
 
 export const fetchContacts = createAsyncThunk('contacts/fetchAll', async () => {
@@ -26,7 +26,7 @@ export const addContact = createAsyncThunk(
   async (contactData, { dispatch }) => {
     try {
       const data = await requestaddContact(contactData);
-      dispatch(fetchContacts()); // Оновлюємо стан після додавання контакту
+      dispatch(fetchContacts());
       return data;
     } catch (error) {
       throw new Error('Failed to add a contact');
@@ -39,7 +39,7 @@ export const deleteContact = createAsyncThunk(
   async (contactId, { dispatch }) => {
     try {
       await requestdeleteContact(contactId);
-      dispatch(fetchContacts()); // Оновлюємо стан після видалення контакту
+      dispatch(fetchContacts());
       return contactId;
     } catch (error) {
       throw new Error('Failed to delete a contact');
