@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import contactsReducer from './contactsSlice';
@@ -10,24 +10,18 @@ const persistConfig = {
 };
 
 const loggerMiddleware = store => next => action => {
-  store.getState(action);
-
+  console.log('Попередній стан:', store.getState());
+  console.log('Виконується дія:', action);
   next(action);
-  store.getState();
+  console.log('Новий стан:', store.getState());
 };
-
 const persistedContactsReducer = persistReducer(persistConfig, contactsReducer);
 
 const store = configureStore({
   reducer: {
     contacts: persistedContactsReducer,
   },
-  middleware: getDefaultMiddleware =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        ignoreActions: ['persist/PERSIST'],
-      },
-    }).concat(loggerMiddleware),
+  middleware: getDefaultMiddleware().concat(loggerMiddleware),
 });
 
 export const persistor = persistStore(store);

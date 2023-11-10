@@ -5,7 +5,6 @@ const instance = axios.create({
 });
 export const requestContacts = async () => {
   const { data } = await instance.get('/contacts');
-  console.log(requestContacts);
   return data;
 };
 
